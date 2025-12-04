@@ -1,0 +1,141 @@
+body {
+    background-image: url(/images/Gemini_Generated_Image_pz2jrapz2jrapz2j.png), url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQura3TeAfHpyiJA-MqgFtZ1l0Hn0MORUiD-w&s);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    margin-left: 50px;
+    margin-top: 80px;
+}
+
+.box1 form label,
+input {
+    font-size: 25px;
+}
+
+.p {
+    display: flex;
+    /* justify-content: space-around; */
+    gap: 90px;
+    /* max-res; */
+    margin: 15px;
+}
+
+.p_2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 20px;
+    width: 371px;
+    padding: 13px;
+}
+
+.q {
+    margin: 15px;
+}
+
+.submit {
+    display: flex;
+    /* justify-content: space-evenly; */
+    margin: 10px 500px;
+    align-items: center;
+}
+
+
+.submit input {
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.container_2 {
+    margin-top: 50px;
+    margin-left: 10px;
+}
+
+.container_2 a {
+    margin: 20px;
+    color: gray;
+}
+
+.container_1 h1 {
+    margin: 20px;
+    color: white;
+}
+
+.container_1 {
+    margin-top: 50px;
+    margin-left: 10px;
+}
+
+
+
+
+
+.pcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 10px 20px;
+    gap: 25px 30px;
+}
+
+.container_3 {
+    width: fit-content;
+    padding: 20px 10px;
+    border-radius: 5px;
+    background: gray;
+}
+
+.container_3 .boxi {
+
+    /* border-radius:2px solid ; */
+    /* margin-top: 10px; */
+    /* margin-left: 10px; */
+    /* height: 250px; */
+    width: 200px;
+
+    padding: 10px 10px;
+}
+
+.boxc {
+    border-radius: 7px;
+    height: 150px;
+    width: 180px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.boxu {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 10px;
+}
+
+.aed {
+    color: purple;
+    justify-content: center;
+}
+
+.ade {
+    color: red;
+}
+
+.user-profile-img {
+    /* Ensures the image fills the boxc container */
+    width: 100%;
+    height: 100%;
+    /* Prevents the image from being stretched or squashed */
+    object-fit: cover;
+    /* Inherit the border-radius from boxc if desired, or add your own */
+    border-radius: 7px;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>list-html</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+
+    <div class="p-5 ml-5">
+        <h1 class="text-xl text-green-500">Created_Heroe's</h1>
+    </div>
+
+    <div class="pt-5 pl-10">
+        <a class="ml-2 mt-2" href="/">Go back</a>
+    </div>
+
+    <div id="userList" class="flex flex-row flex-wrap"></div>
+
+
+    <script>
+      
+        fetch('/api/users')
+            .then(res => res.json())
+            .then(users => {
+                const container = document.getElementById('userList');
+
+                if (users.length < 1) {
+                    container.innerHTML = `
+                        <div class="ml-5 mt-10 p-5 text-xl">
+                            <h1>Please create a hero first</h1>
+                        </div>
+                    `;
+                    return;
+                }
+
+                users.forEach(user => {
+                    const card = document.createElement('div');
+                    card.className = "border rounded-[15px] mt-5 ml-5 mr-5 p-2 w-fit h-fit";
+
+                    card.innerHTML = `
+                        <div class="flex justify-center">
+                            <img class="max-w-50 rounded-[5px]" src="${user.image}" alt="my image">
+                        </div>
+
+                        <div class="flex gap-2">
+                            <span class="text-gray-600">name:</span>
+                            <span>${user.name}</span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <span class="text-gray-600">email:</span>
+                            <span>${user.email}</span>
+                        </div>
+
+                        <div class="flex justify-end gap-2">
+                            <a class="text-red-500" href="/edit/${user._id}">edit</a>
+                            <a class="text-purple-500" href="/delete/${user._id}">delete</a>
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                });
+            });
+    </script>
+
+</body>
+
+</html>

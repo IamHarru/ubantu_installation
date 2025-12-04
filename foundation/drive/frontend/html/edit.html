@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>clone_drive</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div>
+        <h1 class="text-x1 text-red-500 font-medium mt-5 pl-5">
+            update an Hero
+        </h1>
+    </div>
+
+    <div class="mt-10 ml-10">
+        <div>
+            <img id="preview" class="max-w-50 rounded-[5px]" src="" alt="preview image">
+        </div>
+
+        <div class="pt-5">
+            <form method="post" action="/userupdated">
+
+                <input type="hidden" name="_id" id="_id">
+
+                <input class="border-2 rounded-[5px] p-2"
+                    type="text"
+                    name="uname"
+                    id="uname"
+                    placeholder="update name">
+
+                <input class="border-2 rounded-[5px] p-2"
+                    type="email"
+                    name="uemail"
+                    id="uemail"
+                    placeholder="update email">
+
+                <input class="border-2 rounded-[5px] p-2"
+                    type="text"
+                    name="uimage"
+                    id="uimage"
+                    placeholder="updateimage">
+
+                <input class="border-2 rounded-[5px] p-2"
+                    type="submit"
+                    value="update">
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-10 ml-10">
+        <a href="/users">go back</a>
+    </div>
+
+    <script>
+        
+        const _id = window.location.pathname.split("/").pop();
+
+        fetch(`/api/user/${_id}`)
+            .then(res => res.json())
+            .then(user => {
+                document.getElementById('_id').value = user._id;
+                document.getElementById('uname').value = user.name;
+                document.getElementById('uemail').value = user.email;
+                document.getElementById('uimage').value = user.image;
+                document.getElementById('preview').src = user.image;
+            });
+    </script>
+
+</body>
+
+</html>

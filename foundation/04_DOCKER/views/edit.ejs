@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidhi Bharti portal 2025</title>
+    <link rel="shortcut icon" href="desain-logo-vector-product-google-600nw-2511045883-removebg-preview.png"
+        type="image/x-icon">
+
+    <link rel="stylesheet" href="/styles/style.css">
+    <script src="/javascript/script.js"></script>
+    <!-- <script src="hide/express.js"></script> -->
+</head>
+
+<body style="background-image: url(/images/spider-man-spiderman-marvel.webp);">
+    <div class="container">
+        <div class="box1">
+
+            <form action="/update/<%= user._id%>" method="post">
+                <div class="p">
+                    <div class="p_1">
+                        <label for="A_name">Name:</label>
+                        <input type="text" id="A_name" value="<%=user.name%>" name="name" required>
+                        <br><br>
+                        <label for="Email">Email:</label>
+                        <input type="email" id="Email" value="<%=user.gmail%>" name='gmail'
+                            placeholder="Enter your Email" name="gmail" required>
+                        <br><br>
+                        <label>Gender:</label>
+                        <input type="radio" name="gender" value="male" id="male" <%=user.gender==='male' ? 'checked'
+                            : '' %>> Male
+                        <input type="radio" name="gender" value="female" id="female" <%=user.gender==='female'
+                            ? 'checked' : '' %>> Female
+                        <input type="radio" name="gender" value="other" id="other" <%=user.gender==='other' ? 'checked'
+                            : '' %>> Other
+                    </div>
+                    <div class="p_2">
+                        <input type="text" name="image" id="p_image" value="<%=user.image%>">
+                        <label for="p_image">Hero's_Image</label>
+                    </div>
+                </div>
+
+                <div class="submit">
+                    <input type="submit" value="submit">
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>
