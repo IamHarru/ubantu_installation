@@ -3,11 +3,11 @@ const app = express();
 const path = require('path')
 const usermodel = require('./models/user');
 
-app.use(express.json()); /// here i can get the form data 
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')))  // / here app get all the static file 
-app.set('view engine', 'ejs') /// front end file 
+app.use(express.static(path.join(__dirname, 'public')))  
+app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
     res.render('index');
@@ -18,7 +18,7 @@ app.post('/create', async (req, res) => {
     let usercreated = await usermodel.create({
         name, gender, gmail, image
     })
-    // res.send(usercreated)
+   
     res.redirect('/read')
 
 })
