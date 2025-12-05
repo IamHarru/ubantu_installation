@@ -1,4 +1,4 @@
-## mini project 📁
+## mini (CRUD) project 📁
 
 ## in this project  i just create an simpel usrer create form in this form you can upload 
 ##the user profile image using the link and you can also check the created user.
