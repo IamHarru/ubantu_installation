@@ -1,7 +1,7 @@
 ## mini project 📁
 
 ## in this project  i just create an simpel usrer create form in this form you can upload 
-##the user profile using the link and you can also check the created user.
+##the user profile image using the link and you can also check the created user.
 ## i also edit feature so you can just update user info (image , email , name)
 
 ##for making this project i used html ,css , javascript , mongosse,express,docker 
