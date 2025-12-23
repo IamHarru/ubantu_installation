@@ -1,0 +1,11 @@
+version: '3'
+services:
+  backend:
+    build: ./backend  # This builds the container from the backend folder
+    ports:
+      - "5000:5000"  # Expose the backend app on port 5000
+    volumes:
+      - ./backend:/app  # Sync your backend code with the container
+      - ./frontend:/app/frontend  # Sync your frontend code with the container
+    environment:
+      - NODE_ENV=development
