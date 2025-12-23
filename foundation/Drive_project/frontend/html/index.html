@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-200">
+    <div class="mt-2 mb-20">
+        <h1>Drive
+        </h1>
+    </div>
+
+    <div class="w-screen mt-50 flex justify-center  items-center gap-x-8">
+        <!-- register here  -->
+        <div class="bg-white rounded-md ">
+            <div class="w-fit p-5 flex   align-center justify-center ">
+                <form method="post" action="/create">
+                    <fieldset class="border-2 border-gray-400 p-5 rounded w-full max-w-sm mx-auto">
+                        <legend class="text-lg font-bold px-3 text-blue-600">Create-Account</legend>
+                        <div class="">
+
+                            <div class=" flex flex-col gap-y-2"> <input
+                                    class="mb-2 pl-1 border-[1px] border-black rounded border-black" type="text"
+                                    name="name" placeholder="What's your name !" id="">
+                                <input class=" pl-1 border-[1px] border-black rounded" type="email" name="email"
+                                    placeholder="email" id="" required>
+                                <input class="pl-1 mt-2 border-[1px] border-black border-black rounded" type="password"
+                                    name="password" placeholder="password" id="">
+                            </div>
+                        </div>
+                        <div class="mt-2 flex justify-end">
+                            <input class="border-[1px]  p-[4px] bg-blue-500 text-white rounded" type="submit"
+                                value="create" name="" id="">
+                        </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            <h1>Or</h1>
+        </div>
+        <!-- login here -->
+        <div class="rounded-md bg-white">
+            <div class="  w-fit p-5 flex  flex align-center justify-center pt-10 pb-10">
+                <form method="post" action="/login">
+                    <fieldset class="border-2 border-gray-400 p-5 rounded-lg w-full max-w-sm mx-auto">
+                        <legend class="text-lg font-bold px-3 text-blue-600">Login </legend>
+                        <div class="flex flex-col gap-y-2"><input class=" pl-1 border-[1px] border-black rounded"
+                                type="email" name="email" placeholder="email" id="" required>
+                            <input class="pl-1 border-[1px] border-black border-black rounded" type="password"
+                                name="password" placeholder="password" id="">
+                        </div>
+                        <div class="mt-2 flex justify-end">
+                            <input class="border-[1px] p-[4px] bg-blue-500 text-white rounded" type="submit"
+                                value="login" name="" id="">
+                        </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

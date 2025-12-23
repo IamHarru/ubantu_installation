@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../javascripts/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body>
+    <div class="m-5 ">
+        <h1 class="p-1 text-xl text-blue-400"> Created_Users</h1>
+    </div>
+    <div class="flex flex-wrap" id="userList">
+    </div>
+
+
+    <script>
+
+        async function loadusers() {
+            const res = await fetch('/api/users');   // <-- API route
+            const users = await res.json();
+            if (users.length == 0) {
+                const div = document.createElement('div')
+                div.innerHTML = `<p class="text-red-500 ml-5 text-sm">Create user first</p>
+  `}
+            const container = document.getElementById("userList");
+
+        
+                  users.forEach(user => {
+                    const divs = document.createElement("div");
+                    divs.innerHTML = `
+        <div class="border-[1px] m-4 rounded w-fit">
+            <div class="flex m-2 justify-end">
+                <a href="/edit/${user.id}"><img class="w-[20px] h-[20px] cursor-pointer" src="../images/user-edit.png" alt=""></a>
+            </div>
+            <div class="flex flex-col mt-2 mb-2 ml-4 mr-5">
+                <p class="text-wrap"><b>Name:</b> ${user.name}</p>
+                <p class="text-wrap"><b>Email:</b> ${user.email}</p>
+                <p class="text-wrap"><b> password:</b>${user.password}</p>
+            </div>
+            <div class="flex m-2 justify-end"><a href="/delete/${user.id}"><img class="w-[20px] h-[20px] cursor-pointer"
+                        src="../images/garbage.png" alt=""></a>
+            </div>
+        </div>
+        
+        `;
+                    container.appendChild(divs);
+                }
+                );
+            
+          }
+        
+
+
+
+
+        loadusers();
+    </script>
+</body>
+
+</html>

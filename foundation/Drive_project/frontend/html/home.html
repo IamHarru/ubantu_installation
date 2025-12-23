@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+
+<body>
+    <div class="m-2 p-2" id="huser">
+        <div id="usern">
+
+
+        </div>
+        <div class="flex justify-end">
+            <div class="p-2 m-2" title="Logout"><a href="/logout"><img class="w-[25px] , h-[25px]"
+                        src="../images/power.png" alt=""></a></div>
+        </div>
+        <div class="p-5">
+            <form method="post" action="/uploadfiles" enctype="multipart/form-data">
+                <fieldset class="border rounded p-5 border-gray-200">
+                    <legend class="border p-1 rounded text-green-400">upload-files !</legend>
+
+                    <div>
+
+                        <label for="fileInput" class="block cursor-pointer bg-gray-100 p-3 rounded mb-3 text-center"
+                            title="click for upload-files">
+                            Click to select file</label>
+                    </div>
+
+
+
+                    <input id="fileInput" type="file" name="ufiles" class="hidden" />
+
+                    <button class="bg-blue-400 text-white rounded px-2 py-1 cursor-pointer">
+                        upload
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="m-2 p-2">
+            <h2>uploaded-files</h2>
+            <div id="listFiles" class="h-[500px] overflow-y-auto">
+
+
+                <button><a href=""></a></button>
+
+            </div>
+
+        </div>
+        <script>
+            async function loaduser() {
+                const res = await fetch('/api/usern')
+                const user = await res.json();
+
+                const box = document.getElementById("usern")
+
+                const divn = document.createElement("div")
+                divn.innerHTML = `
+                     <h1 class="text-xl"> 👋 Hi ${user.name}</h1>
+                    `;
+                box.appendChild(divn)
+
+
+            }
+            loaduser();
+
+            async function loadfiles() {
+                const res = await fetch('/api/files')
+                const files = await res.json();
+
+                // const ress = await fetch('/api/users')
+                //             const users = await ress.json();
+                //             const ucontainer = document.getElementById('huser')
+                //             users.forEach(user => {
+                //                 const divt = document.createElement('div')
+                //                 divt.innerHTML = `<div class="text-xl">
+                //         Hi ${user.name} !</div>
+                // </div>`; ucontainer.appendChild(divt)
+                //             })
+
+
+
+                const container = document.getElementById('listFiles')
+                container.innerHTML = ""
+                if (files.length == 0) {
+
+
+
+                    const divf = document.createElement('div')
+                    divf.innerHTML = `<p class="text-center text-red-500 text-xl ml-5 text-sm">upload first!</p>`
+                    container.appendChild(divf)
+                    return;
+
+                }
+
+                files.reverse().forEach(file => {
+
+
+                    const divs = document.createElement('div')
+                    divs.innerHTML = `
+                <div class="flex ml-20 mr-20 justify-between border-b-[8px] border-gray-300 pl-5 pr-5">
+                 
+                <span class="ml-20 p-1  " title=""><p class="overflow-hidden whitespace-nowrap text-ellipsis max-w-[400px]">
+  ${getFileIcon(file.original_name)}  ${file.original_name}
+</p> </span>
+                <span class="ml-20 p-1 flex align-center justify-center" title=""><p class=" tex-center">${formatFileSize(file.size)}</p>
+ </span>
+                
+                <span class="flex gap-x-4 mr-25 p-1"><a href="/view/${file.id}" target="_blank"><img class="w-[35px] h-[35px]" src="../images/view.png"
+                            alt=""></a>
+                    <a href="/download/${file.id}"><img class="w-[35px] h-[35px] cursor-pointer" src="../images/download.png" alt=""></a>
+                    <a href="/deletefiles/${file.id}"><img class="w-[35px] h-[35px]" src="../images/trash.png" alt=""></a>
+                </span>
+
+
+            </div>
+                `;
+
+                    container.appendChild(divs);
+
+                })
+
+
+
+            }
+
+            function getFileIcon(fileName) {
+                const ext = fileName.split('.').pop().toLowerCase();
+
+                const map = {
+                    pdf: "📕",
+                    doc: "📘",
+                    docx: "📘",
+                    xls: "📊",
+                    xlsx: "📗",
+                    csv: "📗",
+                    ppt: "📙",
+                    pptx: "📙",
+                    jpg: "🏞️",
+                    jpeg: "🖼️",
+                    png: "📸",
+                    gif: "🖼️",
+                    mp4: "🎬",
+                    mkv: "🎥",
+                    mp3: "🎧",
+                    wav: "🎵",
+                    zip: "🗜️",
+                    rar: "🗜️",
+                    txt: "📄"
+                };
+
+                return map[ext] || "📁";
+            }
+
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 B';
+
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+                return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+            }
+
+            loadfiles();
+        </script>
+</body>
+
+</html>
