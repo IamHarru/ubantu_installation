@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 5000;
 const cookie = require('cookie-parser')
 const path = require('path')
 const upload = require('./multer/multer-config.js')
@@ -43,6 +42,6 @@ app.get('/download/:id', islogin, downloadfiles);
 
 app.get('/view/:id', viewfiles)
 
-app.listen(PORT, () => {
+app.listen(5000, "0.0.0.0",() => {
     console.log(`Server running on port ${PORT}`);
 });
