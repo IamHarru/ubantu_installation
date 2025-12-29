@@ -1,4 +1,5 @@
-const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { S3Client, DeleteObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION || "us-east-1",
@@ -11,68 +12,102 @@ const db = require('../db/connection');
 const db = require("../db/connection");
 
 function uploadfile(req, res) {
-    if (!req.file) {
-        return res.status(400).send("No file uploaded");
-    }
+  if (!req.file) {
+    return res.status(400).send("No file uploaded");
+  }
 
-    const {
-        originalname,
-        key,        // S3 object key
-        mimetype,
-        size,
-        location,   // S3 public URL
-    } = req.file;
+  const {
+    originalname,
+    key,        // S3 object key
+    mimetype,
+    size,
+    location,   // S3 public URL
+  } = req.file;
 
-    const userid = req.user.id;
+  const userid = req.user.id;
 
-    db.run(
-        `INSERT INTO files 
+  db.run(
+    `INSERT INTO files 
      (original_name, stored_name, mime_type, size, path, user_id) 
      VALUES (?, ?, ?, ?, ?, ?)`,
-        [originalname, key, mimetype, size, location, userid],
-        function (err) {
-            if (err) {
-                console.error("sqlite error", err.message);
-                return res.status(500).send(err.message);
-            }
-            res.redirect("/files");
-        }
-    );
+    [originalname, key, mimetype, size, location, userid],
+    function (err) {
+      if (err) {
+        console.error("sqlite error", err.message);
+        return res.status(500).send(err.message);
+      }
+      res.redirect("/files");
+    }
+  );
 }
 
 function fetchfiles(req, res) {
-    const id = req.user.id
-    db.all(`SELECT * FROM files WHERE user_id =? `, [id], (err, rows) => {
-        if (err) {
-            res.status(500).send("Error retrieving users");
-        }
-        else {
-            res.json(rows);
-        }
-    })
+  const id = req.user.id
+  db.all(`SELECT * FROM files WHERE user_id =? `, [id], (err, rows) => {
+    if (err) {
+      res.status(500).send("Error retrieving users");
+    }
+    else {
+      res.json(rows);
+    }
+  })
 }
 
-function downloadfiles(req, res) {
-    const { id } = req.params;
+async function downloadfiles(req, res) {
+  const { id } = req.params;
 
-    db.get(`SELECT * FROM files WHERE id = ?`, [id], (err, row) => {
-        if (err || !row) return res.status(404).send("File not found");
+  db.get(`SELECT * FROM files WHERE id = ?`, [id], async (err, row) => {
+    if (err || !row) {
+      return res.status(404).send("File not found");
+    }
 
-        // Redirect browser to S3 file
-        res.redirect(row.path);
-    });
+    try {
+      const command = new GetObjectCommand({
+        Bucket: process.env.S3_BUCKET,
+        Key: row.stored_name,
+        ResponseContentDisposition: `attachment; filename="${row.original_name}"`,
+      });
+
+      const signedUrl = await getSignedUrl(s3, command, {
+        expiresIn: 60 * 5,
+      });
+
+      res.redirect(signedUrl);
+    } catch (error) {
+      console.error("Download error:", error);
+      res.status(500).send("Unable to download file");
+    }
+  });
 }
 
 
-function viewfiles(req, res) {
-    const { id } = req.params;
 
-    db.get(`SELECT * FROM files WHERE id = ?`, [id], (err, row) => {
-        if (err || !row) return res.status(404).send("File not found");
+async function viewfiles(req, res) {
+  const { id } = req.params;
 
-        res.redirect(row.path);
-    });
+  db.get(`SELECT * FROM files WHERE id = ?`, [id], async (err, row) => {
+    if (err || !row) {
+      return res.status(404).send("File not found");
+    }
+
+    try {
+      const command = new GetObjectCommand({
+        Bucket: process.env.S3_BUCKET,
+        Key: row.stored_name, // NOT row.path
+      });
+
+      const signedUrl = await getSignedUrl(s3, command, {
+        expiresIn: 60 * 5, // 5 minutes
+      });
+
+      res.redirect(signedUrl);
+    } catch (error) {
+      console.error("View error:", error);
+      res.status(500).send("Unable to view file");
+    }
+  });
 }
+
 function deletefiles(req, res) {
   const { id } = req.params;
 
