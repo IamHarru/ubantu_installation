@@ -34,7 +34,7 @@ function createuser(req, res) {
                             (err) => {
                                 if (err) console.log(err);
                                 else console.log("User added!");
-                                let token = jwt.sign({ email , name ,id: row.id }, process.env.JWT_token)
+                                let token = jwt.sign({ email, name, id: row.id }, process.env.JWT_token)
                                 res.cookie('token', token)
                                 res.redirect('/files')
                             }
@@ -50,7 +50,7 @@ function createuser(req, res) {
 }
 
 function userlogin(req, res) {
-    let {email, password } = req.body
+    let { email, password } = req.body
     db.get(`SELECT  * FROM users WHERE email =?`, [email], (err, row) => {
         if (err) {
             return res.status(500).send("database error");
@@ -59,6 +59,7 @@ function userlogin(req, res) {
             return res.send('somthing went wrong with the username')
         }
         const name = row.name
+        const id = row.id
         bcrypt.compare(password, row.password, (err, result) => {
             if (err) {
                 return res.status(500).send("password compare error");
@@ -67,7 +68,7 @@ function userlogin(req, res) {
                 return res.status(400).send('somthing went wrong with the password')
             }
 
-            const token = jwt.sign({ email, name:name, id: row.id }, process.env.JWT_token)
+            const token = jwt.sign({ email, name: name, id: row.id }, process.env.JWT_token)
             return res
                 .cookie('token', token)
                 .redirect('/files')
