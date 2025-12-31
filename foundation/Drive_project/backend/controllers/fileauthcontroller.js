@@ -9,8 +9,6 @@ const path = require('path')
 const db = require('../db/connection');
 
 
-const db = require("../db/connection");
-
 function uploadfile(req, res) {
   if (!req.file) {
     return res.status(400).send("No file uploaded");

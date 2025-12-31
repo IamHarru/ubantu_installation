@@ -59,7 +59,7 @@ function userlogin(req, res) {
             return res.send('somthing went wrong with the username')
         }
         const name = row.name
-        const id = row.id
+        const id = this.lastID;
         bcrypt.compare(password, row.password, (err, result) => {
             if (err) {
                 return res.status(500).send("password compare error");

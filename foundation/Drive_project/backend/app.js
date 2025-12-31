@@ -56,7 +56,7 @@ app.post("/uploadfiles", islogin, upload.single("ufiles"), uploadfile);
 app.get("/api/files", islogin, fetchfiles);
 app.get("/deletefiles/:id", islogin, deletefiles);
 app.get("/download/:id", islogin, downloadfiles);
-app.get("/view/:id", viewfiles);
+app.get("/view/:id",islogin, viewfiles);
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
